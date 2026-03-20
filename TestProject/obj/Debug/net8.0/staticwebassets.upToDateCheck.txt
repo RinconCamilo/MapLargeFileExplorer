@@ -1,8 +1,0 @@
-wwwroot\index.html
-wwwroot\js\api.js
-wwwroot\js\router.js
-wwwroot\styles\base.css
-wwwroot\styles\theme.css
-wwwroot\js\app.js
-wwwroot\js\formatter.js
-wwwroot\js\ui.js
