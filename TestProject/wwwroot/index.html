@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MapLarge File Explorer</title>
+
+        <link rel="stylesheet" href="styles/theme.css" />
+        <link rel="stylesheet" href="styles/base.css" />
+    </head>
+    <body>
+        <div id="launcher">
+            <h1>📁 MapLarge File Explorer</h1>
+            <p>A deep-linkable, single-page file browser powered by a .NET 8 API.</p>
+            <button id="open-explorer-btn" class="btn-primary">Open File Explorer</button>
+        </div>
+        <div id="modal-overlay" class="hidden">
+            <div id="explorer-dialog">
+
+                <!-- Title bar -->
+                <div id="dialog-header">
+                    <span id="dialog-title">📁 File Explorer</span>
+                    <button id="theme-toggle-btn" title="Toggle light / dark theme">🌙</button>
+                    <button id="close-dialog-btn" title="Close (Esc)">✕</button>
+                </div>
+
+                <!-- Toolbar: breadcrumb navigation + search + action buttons -->
+                <div id="toolbar">
+                    <nav id="breadcrumb" aria-label="Directory path"></nav>
+
+                    <div id="search-bar">
+                        <input id="search-input" type="text"
+                               placeholder="Search files &amp; folders…"
+                               autocomplete="off" spellcheck="false" />
+                        <button id="search-btn" title="Search (Enter)">🔍</button>
+                        <button id="clear-search-btn" class="hidden" title="Clear search">✕ Clear</button>
+                    </div>
+
+                    <div id="action-bar">
+                        <button id="new-folder-btn" title="Create a new folder">📁 New Folder</button>
+                        <button id="upload-btn" title="Upload files (or drag &amp; drop)">⬆ Upload</button>
+                        <!-- Hidden file input; triggered by the Upload button -->
+                        <input id="file-input" type="file" multiple hidden />
+                    </div>
+                </div>
+
+                <!-- Stats row: file/folder counts and sizes for the current view -->
+                <div id="stats-bar">Loading…</div>
+
+                <!-- Error notification (auto-dismisses) -->
+                <div id="error-banner" class="hidden"></div>
+
+                <!-- Loading indicator (shown during API calls) -->
+                <div id="loading" class="hidden">Loading</div>
+
+                <!-- Drag-and-drop visual overlay (shown during dragover) -->
+                <div id="drop-overlay" class="hidden">Drop files here to upload</div>
+
+                <!-- File/folder listing table -->
+                <div id="content">
+                    <table id="file-table">
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th data-sort="name">Name <span class="sort-icon"></span></th>
+                                <th data-sort="size">Size <span class="sort-icon"></span></th>
+                                <th data-sort="modified">Modified <span class="sort-icon"></span></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="file-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm dialog - for destructive actions (delete, overwrite) -->
+        <div id="confirm-dialog" class="micro-overlay hidden">
+            <div class="micro-box">
+                <p id="confirm-message"></p>
+                <div class="micro-actions">
+                    <button id="confirm-ok" class="btn-primary">Confirm</button>
+                    <button id="confirm-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Dialog - for new folder names and rename -->
+        <div id="input-dialog" class="micro-overlay hidden">
+            <div class="micro-box">
+                <label id="input-label"></label>
+                <input id="input-value" type="text" />
+                <div class="micro-actions">
+                    <button id="input-ok" class="btn-primary">OK</button>
+                    <button id="input-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="js/app.js"></script>
+    </body>
+</html>

@@ -1,0 +1,78 @@
+﻿/* ═══════════════════════════════════════════════════════════════════════════
+   theme.css — Design tokens only
+   
+   This is the ONLY file you should need to touch when rebranding.
+   It defines what things look like; base.css defines how they behave.
+   
+   To create an alternate theme, add a new [data-theme="..."] block below
+   and toggle it in JavaScript with:
+       document.documentElement.dataset.theme = 'light';
+   
+   Because only changed tokens need to be re-declared in an override block,
+   shared values like --font and --radius inherit from :root automatically.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* ── Surface hierarchy ─────────────────────────────────────────────────
+       Four levels of surface let us create depth without shadows on every
+       element. --bg is the page canvas; --surface through --surface3 are
+       progressively lighter "layers" sitting on top of it.               */
+    --bg: #12151e;
+    --surface: #1a1f2e;
+    --surface2: #222840;
+    --surface3: #2a3050;
+    /* ── Brand accent ──────────────────────────────────────────────────────
+       --accent-dim is the same hue at low opacity, used for hover states
+       and focus rings where the full accent would be overwhelming.       */
+    --accent: #4f8ef7;
+    --accent-dim: rgba(79, 142, 247, .15);
+    /* ── Semantic colours ──────────────────────────────────────────────────
+       These map to meaning rather than aesthetics. Use --danger for
+       destructive actions, --success for confirmations, --warning for
+       non-blocking alerts (e.g. truncated search results).               */
+    --danger: #e05252;
+    --success: #4caf88;
+    --warning: #e0a040;
+    /* ── Text hierarchy ────────────────────────────────────────────────────
+       --text is for primary content; --text-muted for metadata and labels
+       (file sizes, dates, column headers) that should recede visually.   */
+    --text: #d8dce8;
+    --text-muted: #6b7394;
+    /* ── Chrome ────────────────────────────────────────────────────────────
+       --border is for dividers and outlines; --hover is the subtle fill
+       that appears on interactive rows; --shadow is the modal drop shadow. */
+    --border: #2d334d;
+    --hover: rgba(255, 255, 255, .04);
+    --shadow: 0 24px 64px rgba(0, 0, 0, .6);
+    /* ── Shape ─────────────────────────────────────────────────────────────
+       Centralising border-radius means you can go from "sharp and techy"
+       to "soft and rounded" across the entire UI by changing two values.  */
+    --radius: 6px;
+    --radius-lg: 10px;
+    /* ── Typography ────────────────────────────────────────────────────────
+       --font is the UI typeface; --mono is used for path strings and any
+       code-like content (e.g. file extensions, sizes in the stats bar).  */
+    --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+}
+
+/* ── Light theme ─────────────────────────────────────────────────────────────
+   Only the tokens that actually differ from the dark theme are declared here.
+   --radius, --font, --mono, and the semantic colours are identical in both
+   themes, so they fall through to :root and don't need repeating.
+   
+   Activate with: document.documentElement.dataset.theme = 'light';
+   ──────────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+    --bg: #f4f5f8;
+    --surface: #ffffff;
+    --surface2: #eef0f6;
+    --surface3: #e3e6f0;
+    --accent: #2563eb;
+    --accent-dim: rgba(37, 99, 235, .12);
+    --text: #1a1f2e;
+    --text-muted: #6b7394;
+    --border: #d0d4e8;
+    --hover: rgba(0, 0, 0, .04);
+    --shadow: 0 24px 64px rgba(0, 0, 0, .15);
+}

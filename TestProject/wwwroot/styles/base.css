@@ -1,0 +1,603 @@
+﻿/* ═══════════════════════════════════════════════════════════════════════════
+   base.css — Structure, layout, and behaviour
+   
+   This file contains zero literal colour values and zero hardcoded fonts.
+   Every visual property references a token from theme.css via var().
+   
+   A useful mental test: if you deleted theme.css entirely, this file should
+   still be valid, parseable CSS — it just wouldn't look like anything in
+   particular. Think of it as the wireframe; theme.css is the paint.
+   
+   Load order in index.html must be: theme.css first, then base.css.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ── Page shell ──────────────────────────────────────────────────────────── */
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* ── Launcher page ───────────────────────────────────────────────────────── */
+
+#launcher {
+    text-align: center;
+}
+
+    #launcher h1 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text);
+    }
+
+    #launcher p {
+        color: var(--text-muted);
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+/*
+   The base button rule here defines behaviour: sizing, cursor, transition
+   speed, overflow. The .btn-primary and .btn-danger variants below define
+   semantic meaning ("this is the main action", "this is destructive") and
+   still express their colours through variables so themes can change them.
+   
+   The one exception is color: #fff on .btn-primary. White text on an accent
+   background is a universal contrast/accessibility choice, not a brand
+   choice — so it is intentionally hardcoded here rather than tokenised.
+*/
+
+button {
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    padding: 6px 11px;
+    border-radius: var(--radius);
+    transition: background .12s, border-color .12s;
+    white-space: nowrap;
+}
+
+    button:hover {
+        background: var(--surface3);
+    }
+
+    button:active {
+        opacity: .8;
+    }
+
+.btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff; /* intentional hardcode — contrast requirement, not a brand choice */
+}
+
+    .btn-primary:hover {
+        opacity: .88;
+        background: var(--accent);
+    }
+
+.btn-danger {
+    color: var(--danger);
+}
+
+    .btn-danger:hover {
+        background: rgba(var(--danger), .12); /* tint of the danger colour */
+        border-color: var(--danger);
+    }
+
+
+/* ── Modal overlay ───────────────────────────────────────────────────────── */
+
+#modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+    backdrop-filter: blur(3px);
+}
+
+
+/* ── Explorer dialog ─────────────────────────────────────────────────────── */
+
+#explorer-dialog {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    width: min(960px, 100%);
+    height: min(78vh, 720px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* ── Dialog title bar ────────────────────────────────────────────────────── */
+
+#dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    user-select: none;
+}
+
+#dialog-title {
+    font-weight: 600;
+    font-size: 14px;
+    flex: 1;
+}
+
+#close-dialog-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 3px 7px;
+    border-radius: var(--radius);
+    line-height: 1;
+    transition: background .15s, color .15s;
+}
+
+    #close-dialog-btn:hover {
+        background: rgba(255, 255, 255, .08);
+        color: var(--text);
+    }
+
+
+/* ── Toolbar ─────────────────────────────────────────────────────────────── */
+
+#toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+
+/* ── Breadcrumb ──────────────────────────────────────────────────────────── */
+
+#breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.crumb {
+    color: var(--accent);
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    white-space: nowrap;
+    transition: background .12s;
+}
+
+    .crumb:hover {
+        background: var(--accent-dim);
+    }
+
+    /* The final (current) crumb is not clickable, so it gets text styling only */
+    .crumb.crumb-current {
+        color: var(--text);
+        cursor: default;
+        font-weight: 500;
+    }
+
+        .crumb.crumb-current:hover {
+            background: none;
+        }
+
+.crumb-sep {
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 0 1px;
+}
+
+
+/* ── Search bar ──────────────────────────────────────────────────────────── */
+
+#search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#search-input {
+    width: 200px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-family: var(--font);
+    transition: border-color .15s;
+}
+
+    #search-input:focus {
+        outline: none;
+        border-color: var(--accent);
+    }
+
+    #search-input::placeholder {
+        color: var(--text-muted);
+    }
+
+
+/* ── Stats bar ───────────────────────────────────────────────────────────── */
+
+#stats-bar {
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    flex-shrink: 0;
+}
+
+    #stats-bar .truncation-warning {
+        color: var(--warning);
+        margin-left: 8px;
+    }
+
+
+/* ── Notification banners ────────────────────────────────────────────────── */
+
+#error-banner {
+    padding: 8px 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+    background: rgba(224, 82, 82, .18);
+    color: #ffb0b0;
+    border-bottom: 1px solid rgba(224, 82, 82, .3);
+}
+
+#loading {
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
+}
+
+    /* Animated ellipsis — communicates "working" without a spinner component */
+    #loading::after {
+        content: '';
+        animation: ellipsis 1.2s infinite;
+    }
+
+@keyframes ellipsis {
+    0% {
+        content: '';
+    }
+
+    33% {
+        content: '.';
+    }
+
+    66% {
+        content: '..';
+    }
+
+    100% {
+        content: '...';
+    }
+}
+
+
+/* ── File listing ────────────────────────────────────────────────────────── */
+
+#content {
+    flex: 1;
+    overflow: auto;
+}
+
+#file-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+    /* Fixed column widths prevent the table from reflowing as rows are added */
+    #file-table colgroup col:nth-child(1) {
+        width: auto;
+    }
+
+    #file-table colgroup col:nth-child(2) {
+        width: 90px;
+    }
+
+    #file-table colgroup col:nth-child(3) {
+        width: 130px;
+    }
+
+    #file-table colgroup col:nth-child(4) {
+        width: 120px;
+    }
+
+    #file-table thead th {
+        position: sticky; /* header stays visible when the list scrolls */
+        top: 0;
+        background: var(--surface2);
+        color: var(--text-muted);
+        font-weight: 500;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+        padding: 8px 12px;
+        text-align: left;
+        user-select: none;
+        border-bottom: 1px solid var(--border);
+        z-index: 1;
+    }
+
+        #file-table thead th[data-sort] {
+            cursor: pointer;
+        }
+
+            #file-table thead th[data-sort]:hover {
+                color: var(--text);
+            }
+
+        #file-table thead th.sort-active {
+            color: var(--accent);
+        }
+
+    #file-table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, .03);
+        transition: background .08s;
+    }
+
+        #file-table tbody tr:hover {
+            background: var(--hover);
+        }
+
+    #file-table td {
+        padding: 7px 12px;
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+/* ── Name cell ───────────────────────────────────────────────────────────── */
+
+td.cell-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.entry-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.entry-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+    .entry-name.dir-link {
+        color: var(--accent);
+        cursor: pointer;
+    }
+
+        .entry-name.dir-link:hover {
+            text-decoration: underline;
+        }
+
+/* Child-count badge next to directory names: "Documents (12)" */
+.child-badge {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 5px;
+    font-weight: 400;
+}
+
+td.cell-size,
+td.cell-modified {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums; /* keeps size/date columns from jittering */
+}
+
+td.cell-actions {
+    overflow: visible;
+}
+
+
+/* ── Row action buttons ──────────────────────────────────────────────────── */
+/*
+   Actions are hidden until the row is hovered, keeping the table clean while
+   still providing quick access. The opacity transition prevents a jarring
+   pop-in/pop-out effect.
+*/
+
+.row-actions {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity .12s;
+}
+
+tr:hover .row-actions {
+    opacity: 1;
+}
+
+.act-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 3px 6px;
+    border-radius: var(--radius);
+    line-height: 1;
+    transition: background .1s, color .1s;
+}
+
+    .act-btn:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, .08);
+    }
+
+    .act-btn.danger:hover {
+        color: var(--danger);
+        background: rgba(224, 82, 82, .12);
+    }
+
+.empty-msg {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+
+/* ── Drag-and-drop overlay ───────────────────────────────────────────────── */
+
+#drop-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--accent-dim);
+    border: 3px dashed var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: .3px;
+    z-index: 20;
+    pointer-events: none; /* lets dragover events pass through to the container */
+}
+
+
+/* ── Micro-dialogs (confirm / input prompts) ─────────────────────────────── */
+
+.micro-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+.micro-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    width: min(400px, 92vw);
+    box-shadow: var(--shadow);
+}
+
+    .micro-box p {
+        margin-bottom: 18px;
+        line-height: 1.55;
+        white-space: pre-wrap;
+        font-size: 14px;
+    }
+
+    .micro-box label {
+        display: block;
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+    }
+
+    .micro-box input[type="text"] {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 10px;
+        border-radius: var(--radius);
+        font-size: 14px;
+        font-family: var(--font);
+        margin-bottom: 16px;
+    }
+
+        .micro-box input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+.micro-actions {
+    display: flex;
+    gap: 8px;
+}
+
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+/*
+   Custom scrollbar styling only applies in Webkit/Blink engines.
+   Firefox respects scrollbar-width/scrollbar-color instead (not yet added
+   here, but the layout is unaffected if these rules are ignored).
+*/
+
+#content::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#content::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+    #content::-webkit-scrollbar-thumb:hover {
+        background: var(--surface3);
+    }

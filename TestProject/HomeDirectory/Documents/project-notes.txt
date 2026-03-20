@@ -1,0 +1,9 @@
+Project Notes
+=============
+Sample document for testing navigation, download, and rename.
+
+Key things to try:
+- Navigate into this folder using the breadcrumb or by clicking the folder
+- Download this file using the down-arrow action button  
+- Rename it using the pencil action button
+- Search for "notes" from the home directory
